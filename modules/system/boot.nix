@@ -6,7 +6,6 @@
     loader.efi.canTouchEfiVariables = true;
     kernelPackages = pkgs.linuxPackages_latest;
 
-    # CRITICAL FOR AMD: Enable early modesetting so Plymouth can draw immediately
     initrd.kernelModules = [ "amdgpu" ];
     kernelParams = [
       "quiet"
@@ -21,9 +20,9 @@
 
     plymouth = {
       enable = true;
-      # "solar" is a sleek, built-in Plymouth theme (glowing comet/sun animation)
-      # No external downloads required, preventing 404/hash errors.
-      theme = "solar";
+      # "breeze" is a clean, minimal, geometric spinner built into Nixpkgs.
+      themePackages = [ pkgs.kdePackages.breeze-plymouth ];
+      theme = "breeze";
     };
   };
 }
