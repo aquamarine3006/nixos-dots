@@ -20,10 +20,9 @@
 
     plymouth = {
       enable = true;
-      # "glow" is a sophisticated, minimal pulsing animation built into nixpkgs.
-      # By using pkgs.plymouth instead of pkgs.nixos-artwork, we avoid the NixOS logo.
+      # "spinfinity" is a clean, minimal infinity spinner built into nixpkgs.
       themePackages = [ pkgs.plymouth ];
-      theme = "glow";
+      theme = "spinfinity";
     };
   };
 }

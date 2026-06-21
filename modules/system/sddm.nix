@@ -7,6 +7,7 @@
     theme = "sddm-astronaut-theme";
     package = pkgs.kdePackages.sddm;
     
+    # SDDM needs these Qt6 libraries to render, and bibata-cursors to show the mouse
     extraPackages = with pkgs; [
       kdePackages.qtwayland
       kdePackages.qtsvg
@@ -14,6 +15,7 @@
       kdePackages.qqc2-breeze-style
       kdePackages.qtdeclarative
       kdePackages.qt5compat
+      bibata-cursors
     ];
   };
 
