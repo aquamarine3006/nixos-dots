@@ -7,7 +7,6 @@
     theme = "sddm-astronaut-theme";
     package = pkgs.kdePackages.sddm;
     
-    # SDDM runs as its own user. It can ONLY find QML modules if they are in extraPackages.
     extraPackages = with pkgs; [
       kdePackages.qtwayland
       kdePackages.qtsvg
