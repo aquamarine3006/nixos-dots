@@ -3,6 +3,13 @@
   imports = [
     ./hardware.nix
     ../../modules/system/boot.nix
+    ../../modules/system/networking.nix
+    ../../modules/system/locale.nix
+    ../../modules/system/audio.nix
+    ../../modules/system/fonts.nix
+    ../../modules/system/security.nix
+    ../../modules/system/nautilus.nix
+    ../../modules/system/hyprland.nix
     ../../modules/system/sddm.nix
   ];
 
