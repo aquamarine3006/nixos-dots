@@ -1,4 +1,4 @@
-{ pkgs, inputs, lib, ... }:
+{ pkgs, lib, ... }:
 
 {
   boot = {
@@ -20,8 +20,10 @@
 
     plymouth = {
       enable = true;
-      # "spinner" is a clean, unbranded, minimal geometric loader
-      theme = "spinner";
+      # "glow" is a sophisticated, minimal pulsing animation built into nixpkgs.
+      # By using pkgs.plymouth instead of pkgs.nixos-artwork, we avoid the NixOS logo.
+      themePackages = [ pkgs.plymouth ];
+      theme = "glow";
     };
   };
 }
