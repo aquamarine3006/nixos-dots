@@ -20,9 +20,8 @@
 
     plymouth = {
       enable = true;
-      # "breeze" is a clean, minimal, geometric spinner built into Nixpkgs.
-      themePackages = [ pkgs.kdePackages.breeze-plymouth ];
-      theme = "breeze";
+      # "spinner" is a clean, unbranded, minimal geometric loader
+      theme = "spinner";
     };
   };
 }

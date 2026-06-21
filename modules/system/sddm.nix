@@ -4,7 +4,7 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-    theme = "sddm-astronaut-theme";
+    theme = "sugar-dark";
     package = pkgs.kdePackages.sddm;
     
     extraPackages = with pkgs; [
@@ -18,7 +18,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    sddm-astronaut
+    sddm-sugar-dark
     bibata-cursors
   ];
 
