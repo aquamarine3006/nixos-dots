@@ -1,26 +1,5 @@
 { pkgs, inputs, lib, ... }:
 
-let
-  # Package the hexagon theme from manilarome's lightweight repo
-  hexagon-plymouth = pkgs.stdenvNoCC.mkDerivation {
-    name = "hexagon-plymouth";
-    src = inputs.plymouth-themes;
-    
-    dontBuild = true;
-    
-    installPhase = ''
-      runHook preInstall
-      mkdir -p $out/share/plymouth/themes/hexagon
-      # The repo stores files under hexagon/hexagon/
-      cp -r hexagon/hexagon/* $out/share/plymouth/themes/hexagon/
-      
-      # Fix the .plymouth config file to point to the Nix store
-      substituteInPlace $out/share/plymouth/themes/hexagon/hexagon.plymouth \
-        --replace "/usr/share/plymouth/themes/hexagon" "$out/share/plymouth/themes/hexagon"
-      runHook postInstall
-    '';
-  };
-in
 {
   boot = {
     loader.systemd-boot.enable = true;
@@ -42,8 +21,9 @@ in
 
     plymouth = {
       enable = true;
-      themePackages = [ hexagon-plymouth ];
-      theme = "hexagon";
+      # "solar" is a sleek, built-in Plymouth theme (glowing comet/sun animation)
+      # No external downloads required, preventing 404/hash errors.
+      theme = "solar";
     };
   };
 }
