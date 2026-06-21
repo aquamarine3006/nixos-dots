@@ -1,26 +1,5 @@
 { pkgs, inputs, lib, ... }:
 
-let
-  # Package the hexagon theme from adi1090x's repo
-  hexagon-plymouth = pkgs.stdenvNoCC.mkDerivation {
-    name = "hexagon-plymouth";
-    src = inputs.plymouth-themes;
-    
-    dontBuild = true;
-    
-    installPhase = ''
-      runHook preInstall
-      mkdir -p $out/share/plymouth/themes/hexagon
-      # The repo stores files under hexagon_1/hexagon/
-      cp -r hexagon_1/hexagon/* $out/share/plymouth/themes/hexagon/
-      
-      # Fix the .plymouth config file to point to the Nix store
-      substituteInPlace $out/share/plymouth/themes/hexagon/hexagon.plymouth \
-        --replace "/usr/share/plymouth/themes/hexagon" "$out/share/plymouth/themes/hexagon"
-      runHook postInstall
-    '';
-  };
-in
 {
   boot = {
     loader.systemd-boot.enable = true;
@@ -42,8 +21,9 @@ in
 
     plymouth = {
       enable = true;
-      themePackages = [ hexagon-plymouth ];
-      theme = "hexagon";
+      # Use the sleek, built-in Breeze theme (no massive downloads required)
+      themePackages = [ pkgs.kdePackages.breeze-plymouth ];
+      theme = "breeze";
     };
   };
 }

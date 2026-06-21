@@ -8,15 +8,9 @@
       url = "github:OminduD/PantheonSDDM";
       flake = false;
     };
-
-    # New premium Plymouth theme pack
-    plymouth-themes = {
-      url = "github:adi1090x/plymouth-themes";
-      flake = false;
-    };
   };
 
-  outputs = { self, nixpkgs, pantheon-sddm, plymouth-themes, ... }@inputs:
+  outputs = { self, nixpkgs, pantheon-sddm, ... }@inputs:
   {
     nixosConfigurations.aqua = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
