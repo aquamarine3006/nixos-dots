@@ -1,35 +1,30 @@
-{ pkgs, inputs, ... }:
-let
-  pantheon-sddm = pkgs.stdenvNoCC.mkDerivation {
-    name = "pantheon-sddm";
-    src  = inputs.pantheon-sddm;
-    installPhase = ''
-      mkdir -p $out/share/sddm/themes/PantheonSDDM
-      cp -r . $out/share/sddm/themes/PantheonSDDM
-    '';
-  };
-in
+{ pkgs, ... }:
+
 {
   services.displayManager.sddm = {
-    enable         = true;
+    enable = true;
     wayland.enable = true;
-    theme          = "PantheonSDDM";
-    package        = pkgs.kdePackages.sddm;
-    extraPackages  = with pkgs; [
+    theme = "sddm-astronaut-theme";
+    package = pkgs.kdePackages.sddm;
+    
+    # SDDM runs as its own user. It can ONLY find QML modules if they are in extraPackages.
+    extraPackages = with pkgs; [
       kdePackages.qtwayland
       kdePackages.qtsvg
       kdePackages.qtmultimedia
       kdePackages.qqc2-breeze-style
-      bibata-cursors
+      kdePackages.qtdeclarative
+      kdePackages.qt5compat
     ];
   };
 
-  environment.etc."sddm.conf.d/theme.conf".text = ''
+  environment.systemPackages = with pkgs; [
+    sddm-astronaut
+    bibata-cursors
+  ];
+
+  environment.etc."sddm.conf.d/cursor.conf".text = ''
     [Theme]
-    Current=PantheonSDDM
-    ThemeDir=${pantheon-sddm}/share/sddm/themes
     CursorTheme=Bibata-Modern-Classic
   '';
-
-  environment.systemPackages = [ pantheon-sddm pkgs.bibata-cursors ];
 }
