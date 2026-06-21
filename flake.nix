@@ -23,10 +23,16 @@
       url = "github:OminduD/PantheonSDDM";
       flake = false;
     };
+
+    # Small (1MB) repository containing premium Plymouth themes
+    plymouth-themes = {
+      url = "github:manilarome/plymouth-themes";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, hyprland, quickshell,
-               pantheon-sddm, ... }@inputs:
+               pantheon-sddm, plymouth-themes, ... }@inputs:
   {
     nixosConfigurations.aqua = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
