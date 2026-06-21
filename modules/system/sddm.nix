@@ -17,7 +17,8 @@ let
       cp -r . $out/share/sddm/themes/sddm-astronaut-theme/
       
       # Overwrite the default background with your countryside/anime wallpaper
-      cp ${../assets/wallpaper.jpg} $out/share/sddm/themes/sddm-astronaut-theme/Backgrounds/default.jpg
+      # Path goes up two directories from modules/system/ to reach assets/
+      cp ${../../assets/wallpaper.jpg} $out/share/sddm/themes/sddm-astronaut-theme/Backgrounds/default.jpg
       runHook postInstall
     '';
   };
