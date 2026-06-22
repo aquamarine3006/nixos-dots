@@ -64,7 +64,7 @@ FocusScope {
         spacing: 10
 
         Text {
-            text: "VISUALIZER"; color: "#2a2a2a"; font.pixelSize: 10; font.bold: true
+            text: "VISUALIZER"; color: "#2a2a2a"; font.pixelSize: 17; font.bold: true
             font.family: "JetBrainsMono Nerd Font"; font.letterSpacing: 3
         }
 
@@ -102,7 +102,7 @@ FocusScope {
 
         Text {
             text: "Esc close"; color: "#2a2a2a"
-            font.pixelSize: 11; font.family: "JetBrainsMono Nerd Font"
+            font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
         }
     }
 }

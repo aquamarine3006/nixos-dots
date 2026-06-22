@@ -25,16 +25,18 @@ PanelWindow {
     WlrLayershell.exclusiveZone: 56
 
     readonly property var dimMap: ({
-        "":             { w: 160, h: 44,  r: 22 },
-        "osd":          { w: 300, h: 44,  r: 22 },
-        "launcher":     { w: 520, h: 310, r: 24 },
-        "mixer":        { w: 380, h: 220, r: 24 },
-        "power":        { w: 280, h: 150, r: 24 },
-        "wallpaper":    { w: 580, h: 460, r: 24 },
-        "media":        { w: 380, h: 215, r: 24 },
-        "powerprofile": { w: 360, h: 240, r: 24 },
-        "visualizer":   { w: 420, h: 160, r: 24 },
-        "lockscreen":   { w: 360, h: 280, r: 28 }
+        "":               { w: 260, h: 48,  r: 24 },
+        "osd":            { w: 340, h: 48,  r: 24 },
+        "launcher":       { w: 600, h: 420, r: 28 },
+        "scriptlauncher": { w: 600, h: 420, r: 28 },
+        "controlcenter":  { w: 540, h: 720, r: 28 },
+        "sysinfo":        { w: 540, h: 460, r: 28 },
+        "power":          { w: 360, h: 200, r: 28 },
+        "wallpaper":      { w: 680, h: 560, r: 28 },
+        "media":          { w: 480, h: 280, r: 28 },
+        "powerprofile":   { w: 540, h: 460, r: 28 },
+        "visualizer":     { w: 520, h: 220, r: 28 },
+        "lockscreen":     { w: 440, h: 360, r: 32 }
     })
 
     readonly property string effectiveState:
@@ -68,22 +70,40 @@ PanelWindow {
         opacity: isFullscreen ? 0.0 : 1.0
         Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
 
+        // ── Clock + Battery ───────────────────────────────────────────────
         Item {
             anchors.fill: parent
             opacity: (root.effectiveState === "") ? 1.0 : 0.0
             visible: opacity > 0
             Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.InCubic } }
+
             Text {
                 anchors.centerIn: parent
-                color: "#ffffff"; font.pixelSize: 20; font.bold: true
+                color: "#ffffff"; font.pixelSize: 24; font.bold: true
                 font.family: "JetBrainsMono Nerd Font"
                 property string t: Qt.formatTime(new Date(), "hh:mm")
                 text: t
                 Timer { running: true; repeat: true; interval: 1000
                         onTriggered: parent.t = Qt.formatTime(new Date(), "hh:mm") }
             }
+
+            Text {
+                visible: Battery.present
+                anchors.right: parent.right; anchors.rightMargin: 14
+                anchors.verticalCenter: parent.verticalCenter
+                text: Battery.percent + "%"
+                color: Battery.critical ? "#666666" : "#333333"
+                font.pixelSize: 13; font.family: "JetBrainsMono Nerd Font"
+                Behavior on color { ColorAnimation { duration: 400 } }
+                SequentialAnimation on opacity {
+                    running: Battery.critical; loops: Animation.Infinite
+                    NumberAnimation { to: 0.3; duration: 800; easing.type: Easing.InOutSine }
+                    NumberAnimation { to: 1.0; duration: 800; easing.type: Easing.InOutSine }
+                }
+            }
         }
 
+        // ── OSD ───────────────────────────────────────────────────────────
         Item {
             anchors.fill: parent
             opacity: (root.effectiveState === "osd") ? 1.0 : 0.0
@@ -94,12 +114,12 @@ PanelWindow {
                 anchors.centerIn: parent; spacing: 12
                 Text {
                     text: root.osdType === "volume" ? (Audio.muted ? "󰖁" : "󰕾") : "󰃟"
-                    color: "#ffffff"; font.pixelSize: 16; font.bold: true
+                    color: "#ffffff"; font.pixelSize: 24; font.bold: true
                     font.family: "JetBrainsMono Nerd Font"
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Rectangle {
-                    id: osdTrack; width: 160; height: 4; radius: 2; color: "#1c1c1c"
+                    id: osdTrack; width: 200; height: 5; radius: 3; color: "#1c1c1c"
                     anchors.verticalCenter: parent.verticalCenter
                     Rectangle {
                         id: osdFill
@@ -116,12 +136,13 @@ PanelWindow {
                 }
                 Text {
                     text: root.osdType === "volume" ? (Audio.muted ? "muted" : Audio.volume + "%") : (Bright.percent + "%")
-                    color: "#888888"; font.pixelSize: 13; font.family: "JetBrainsMono Nerd Font"
+                    color: "#888888"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
         }
 
+        // ── Launcher ──────────────────────────────────────────────────────
         Loader {
             anchors.fill: parent; active: root.panel === "launcher"
             opacity: active ? 1.0 : 0.0
@@ -129,13 +150,31 @@ PanelWindow {
             sourceComponent: LauncherContent { onDismiss: root.dismiss() }
         }
 
+        // ── Script Launcher ───────────────────────────────────────────────
         Loader {
-            anchors.fill: parent; active: root.panel === "mixer"
+            anchors.fill: parent; active: root.panel === "scriptlauncher"
             opacity: active ? 1.0 : 0.0
             Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-            sourceComponent: MixerContent { onDismiss: root.dismiss() }
+            sourceComponent: ScriptLauncherContent { onDismiss: root.dismiss() }
         }
 
+        // ── Control Center ────────────────────────────────────────────────
+        Loader {
+            anchors.fill: parent; active: root.panel === "controlcenter"
+            opacity: active ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+            sourceComponent: ControlCenterContent { onDismiss: root.dismiss() }
+        }
+
+        // ── Sys Info ──────────────────────────────────────────────────────
+        Loader {
+            anchors.fill: parent; active: root.panel === "sysinfo"
+            opacity: active ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+            sourceComponent: SysInfoContent { onDismiss: root.dismiss() }
+        }
+
+        // ── Power ─────────────────────────────────────────────────────────
         Loader {
             anchors.fill: parent; active: root.panel === "power"
             opacity: active ? 1.0 : 0.0
@@ -143,6 +182,7 @@ PanelWindow {
             sourceComponent: PowerContent { onDismiss: root.dismiss() }
         }
 
+        // ── Wallpaper ─────────────────────────────────────────────────────
         Loader {
             anchors.fill: parent; active: root.panel === "wallpaper"
             opacity: active ? 1.0 : 0.0
@@ -150,6 +190,7 @@ PanelWindow {
             sourceComponent: WallpaperContent { onDismiss: root.dismiss() }
         }
 
+        // ── Media ─────────────────────────────────────────────────────────
         Loader {
             anchors.fill: parent; active: root.panel === "media"
             opacity: active ? 1.0 : 0.0
@@ -157,6 +198,7 @@ PanelWindow {
             sourceComponent: MediaContent { onDismiss: root.dismiss() }
         }
 
+        // ── Power Profile ─────────────────────────────────────────────────
         Loader {
             anchors.fill: parent; active: root.panel === "powerprofile"
             opacity: active ? 1.0 : 0.0
@@ -164,6 +206,7 @@ PanelWindow {
             sourceComponent: PowerProfileContent { onDismiss: root.dismiss() }
         }
 
+        // ── Visualizer ────────────────────────────────────────────────────
         Loader {
             anchors.fill: parent; active: root.panel === "visualizer"
             opacity: active ? 1.0 : 0.0
@@ -171,6 +214,7 @@ PanelWindow {
             sourceComponent: VisualizerContent { onDismiss: root.dismiss() }
         }
 
+        // ── Lockscreen ────────────────────────────────────────────────────
         Loader {
             anchors.fill: parent; active: root.panel === "lockscreen"
             opacity: active ? 1.0 : 0.0

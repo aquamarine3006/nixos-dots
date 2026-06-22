@@ -38,7 +38,7 @@ FocusScope {
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 property string t: Qt.formatTime(new Date(), "hh:mm")
-                text: t; color: "#ffffff"; font.pixelSize: 44; font.bold: true
+                text: t; color: "#ffffff"; font.pixelSize: 60; font.bold: true
                 font.family: "JetBrainsMono Nerd Font"
                 Timer { running: true; repeat: true; interval: 1000
                         onTriggered: parent.t = Qt.formatTime(new Date(), "hh:mm") }
@@ -59,7 +59,7 @@ FocusScope {
                 model: 4
                 Rectangle {
                     required property int index
-                    width: 11; height: 11; radius: 6
+                    width: 14; height: 14; radius: 7
                     color: index < root.pin.length ? "#ffffff" : "#252525"
                     border.width: 1; border.color: index < root.pin.length ? "transparent" : "#3a3a3a"
                     Behavior on color { ColorAnimation { duration: 80 } }
@@ -70,21 +70,21 @@ FocusScope {
         Row {
             anchors.horizontalCenter: parent.horizontalCenter; spacing: 10
             Rectangle {
-                width: 120; height: 40; radius: 10
+                width: 150; height: 50; radius: 12
                 color: cancelMa.containsMouse ? "#1c1c1c" : "#111111"
                 Behavior on color { ColorAnimation { duration: 100 } }
                 Text { anchors.centerIn: parent; text: "Cancel"; color: "#555555"
-                    font.pixelSize: 13; font.family: "JetBrainsMono Nerd Font" }
+                    font.pixelSize: 18; font.family: "JetBrainsMono Nerd Font" }
                 MouseArea { id: cancelMa; anchors.fill: parent; hoverEnabled: true
                     onClicked: { root.pin = ""; pinField.text = ""; root.dismiss() } }
             }
             Rectangle {
-                width: 120; height: 40; radius: 10
+                width: 150; height: 50; radius: 12
                 color: lockMa.containsMouse ? "#1c1c1c" : "#111111"
                 border.width: 1; border.color: "#ffffff"
                 Behavior on color { ColorAnimation { duration: 100 } }
                 Text { anchors.centerIn: parent; text: "󰌾  Lock"
-                    color: "#ffffff"; font.pixelSize: 13; font.bold: true
+                    color: "#ffffff"; font.pixelSize: 18; font.bold: true
                     font.family: "JetBrainsMono Nerd Font" }
                 MouseArea { id: lockMa; anchors.fill: parent; hoverEnabled: true; onClicked: root.doLock() }
             }
@@ -93,7 +93,7 @@ FocusScope {
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "Enter lock   Esc cancel"; color: "#2a2a2a"
-            font.pixelSize: 11; font.family: "JetBrainsMono Nerd Font"
+            font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
         }
     }
 }

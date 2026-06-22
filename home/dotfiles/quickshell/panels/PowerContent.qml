@@ -15,7 +15,7 @@ FocusScope {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "POWER"; color: "#2a2a2a"; font.pixelSize: 10; font.bold: true
+            text: "POWER"; color: "#2a2a2a"; font.pixelSize: 17; font.bold: true
             font.family: "JetBrainsMono Nerd Font"; font.letterSpacing: 3
         }
 
@@ -38,7 +38,7 @@ FocusScope {
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "←→ select   Enter confirm   Esc cancel"
-            color: "#2a2a2a"; font.pixelSize: 11; font.family: "JetBrainsMono Nerd Font"
+            color: "#2a2a2a"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
         }
     }
 
@@ -47,7 +47,7 @@ FocusScope {
         signal activated()
         property string label: ""
 
-        width: 108; height: 60; radius: 12
+        width: 140; height: 72; radius: 14
         color: (ma.containsMouse || pbtn.activeFocus) ? "#1c1c1c" : "#111111"
         border.width: pbtn.activeFocus ? 1 : 0; border.color: "#ffffff"
         activeFocusOnTab: true
@@ -60,7 +60,7 @@ FocusScope {
 
         Text {
             anchors.centerIn: parent; text: pbtn.label; color: "#ffffff"
-            font.pixelSize: 13; font.bold: true; font.family: "JetBrainsMono Nerd Font"
+            font.pixelSize: 17; font.bold: true; font.family: "JetBrainsMono Nerd Font"
         }
 
         Keys.onReturnPressed: function(event) { pbtn.activated(); event.accepted = true }

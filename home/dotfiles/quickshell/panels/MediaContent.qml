@@ -58,14 +58,14 @@ FocusScope {
                 Text {
                     width: parent.width
                     text: Media.artist.length > 0 ? Media.artist : "—"
-                    color: "#666666"; font.pixelSize: 14
+                    color: "#666666"; font.pixelSize: 12
                     font.family: "JetBrainsMono Nerd Font"
                     elide: Text.ElideRight
                 }
                 Text {
                     text: Media.status
                     color: Media.playing ? "#ffffff" : "#444444"
-                    font.pixelSize: 12; font.family: "JetBrainsMono Nerd Font"
+                    font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
                 }
             }
         }
@@ -89,7 +89,7 @@ FocusScope {
                         property real frac: Media.length > 0 ? Math.max(0, Math.min(1, Media.position / Media.length)) : 0
                         x: Math.max(0, Math.min(progTrack.width - width, progTrack.width * frac - width / 2))
                         anchors.verticalCenter: parent.verticalCenter
-                        width: 11; height: 11; radius: 6; color: "#ffffff"
+                        width: 14; height: 14; radius: 7; color: "#ffffff"
                         visible: Media.length > 0
                     }
                     MouseArea {
@@ -104,9 +104,9 @@ FocusScope {
 
             Row {
                 width: parent.width
-                Text { id: posTime; text: root.fmt(Media.position); color: "#555"; font.pixelSize: 12; font.family: "JetBrainsMono Nerd Font" }
+                Text { id: posTime; text: root.fmt(Media.position); color: "#555"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font" }
                 Item { width: parent.width - posTime.implicitWidth - endTime.implicitWidth; height: 1 }
-                Text { id: endTime; text: root.fmt(Media.length); color: "#555"; font.pixelSize: 12; font.family: "JetBrainsMono Nerd Font" }
+                Text { id: endTime; text: root.fmt(Media.length); color: "#555"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font" }
             }
         }
 
@@ -120,7 +120,7 @@ FocusScope {
 
         Text {
             text: "Space play/pause   ←→ prev/next   click bar to seek   Esc close"
-            color: "#2a2a2a"; font.pixelSize: 11; font.family: "JetBrainsMono Nerd Font"
+            color: "#2a2a2a"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
             width: parent.width; wrapMode: Text.WordWrap
         }
     }
@@ -131,7 +131,7 @@ FocusScope {
         property string icon: ""
         property bool   large: false
 
-        width: large ? 46 : 36; height: width; radius: width / 2
+        width: large ? 58 : 46; height: width; radius: width / 2
         color: mba.containsMouse ? "#1c1c1c" : "transparent"
         Behavior on color { ColorAnimation { duration: 100 } }
         scale: mba.containsMouse ? 1.08 : 1.0

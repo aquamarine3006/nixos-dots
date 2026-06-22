@@ -26,7 +26,7 @@ Item {
 
     function setProfile(p: string): void {
         root.current = p
-        setProc.command = ["bash", "-c", "command -v powerprofilesctl >/dev/null 2>&1 && powerprofilesctl set '" + p + "'"]
+        setProc.command = ["powerprofilesctl", "set", p]
         setProc.running = true
     }
 
@@ -35,7 +35,7 @@ Item {
         onTriggered: poll.running = true
     }
     Process {
-        id: poll; command: ["bash", "-c", "command -v powerprofilesctl >/dev/null 2>&1 && powerprofilesctl get"]
+        id: poll; command: ["powerprofilesctl", "get"]
         stdout: SplitParser { onRead: d => { const v = d.trim(); if (v.length > 0) root.current = v } }
     }
     Process { id: setProc }

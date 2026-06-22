@@ -18,27 +18,27 @@ FocusScope {
     Keys.onDownPressed: { profileList.incrementCurrentIndex(); event.accepted = true }
 
     Column {
-        anchors { fill: parent; margins: 16 }
-        spacing: 10
+        anchors { fill: parent; margins: 24 }
+        spacing: 16
 
         Text {
-            text: "POWER PROFILE"; color: "#2a2a2a"; font.pixelSize: 10; font.bold: true
+            text: "POWER PROFILE"; color: "#2a2a2a"; font.pixelSize: 17; font.bold: true
             font.family: "JetBrainsMono Nerd Font"; font.letterSpacing: 3
         }
 
         ListView {
             id: profileList
             width: parent.width
-            height: PowerProfile.profiles.length * 56
+            height: PowerProfile.profiles.length * 88
             model: PowerProfile.profiles
             currentIndex: PowerProfile.profiles.indexOf(PowerProfile.current)
-            interactive: false; spacing: 6
+            interactive: false; spacing: 10
 
             delegate: Rectangle {
                 id: prow
                 required property string modelData
                 required property int    index
-                width: profileList.width; height: 48; radius: 12
+                width: profileList.width; height: 96; radius: 18
 
                 readonly property bool isActive:   PowerProfile.current === prow.modelData
                 readonly property bool isFocused:  profileList.currentIndex === prow.index
@@ -57,20 +57,20 @@ FocusScope {
                 Behavior on border.width { NumberAnimation { duration: 80  } }
 
                 Row {
-                    anchors { left: parent.left; leftMargin: 14; verticalCenter: parent.verticalCenter }
-                    spacing: 12
+                    anchors { left: parent.left; leftMargin: 18; verticalCenter: parent.verticalCenter }
+                    spacing: 16
 
                     Text {
                         text: PowerProfile.icons[prow.modelData] ?? "?"
                         color: prow.isActive ? prow.rowColor : "#666"
-                        font.pixelSize: 20; font.family: "JetBrainsMono Nerd Font"
+                        font.pixelSize: 36; font.family: "JetBrainsMono Nerd Font"
                         anchors.verticalCenter: parent.verticalCenter
                         Behavior on color { ColorAnimation { duration: 120 } }
                     }
                     Text {
                         text: PowerProfile.labels[prow.modelData] ?? prow.modelData
                         color: prow.isActive ? "#ffffff" : "#aaaaaa"
-                        font.pixelSize: 15; font.bold: prow.isActive
+                        font.pixelSize: 24; font.bold: prow.isActive
                         font.family: "JetBrainsMono Nerd Font"
                         anchors.verticalCenter: parent.verticalCenter
                         Behavior on color { ColorAnimation { duration: 120 } }
@@ -78,9 +78,9 @@ FocusScope {
                 }
 
                 Text {
-                    anchors { right: parent.right; rightMargin: 14; verticalCenter: parent.verticalCenter }
+                    anchors { right: parent.right; rightMargin: 18; verticalCenter: parent.verticalCenter }
                     text: prow.isActive ? "● active" : ""
-                    color: prow.rowColor; font.pixelSize: 10; font.letterSpacing: 1
+                    color: prow.rowColor; font.pixelSize: 15; font.letterSpacing: 1
                     font.family: "JetBrainsMono Nerd Font"
                 }
 
@@ -94,7 +94,7 @@ FocusScope {
 
         Text {
             text: "↑↓ select   Enter/click apply   Esc close"
-            color: "#2a2a2a"; font.pixelSize: 11; font.family: "JetBrainsMono Nerd Font"
+            color: "#2a2a2a"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
         }
     }
 }

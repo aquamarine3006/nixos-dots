@@ -27,25 +27,37 @@ ShellRoot {
 
     IpcHandler {
         target: "island"
-        function launcher():     void { root.toggle("launcher")     }
-        function mixer():        void { root.toggle("mixer")        }
-        function power():        void { root.toggle("power")        }
-        function wallpaper():    void { root.toggle("wallpaper")    }
-        function media():        void { root.toggle("media")        }
-        function powerprofile(): void { root.toggle("powerprofile") }
-        function visualizer():   void { root.toggle("visualizer")   }
-        function lockscreen():   void { root.toggle("lockscreen")   }
+        function launcher():       void { root.toggle("launcher")       }
+        function scriptlauncher(): void { root.toggle("scriptlauncher") }
+        function controlcenter():  void { root.toggle("controlcenter")  }
+        function mixer():          void { root.toggle("controlcenter")  }  // alias: old keybind still works
+        function sysinfo():        void { root.toggle("sysinfo")        }
+        function power():          void { root.toggle("power")          }
+        function wallpaper():      void { root.toggle("wallpaper")      }
+        function media():          void { root.toggle("media")          }
+        function powerprofile():   void { root.toggle("powerprofile")   }
+        function visualizer():     void { root.toggle("visualizer")     }
+        function lockscreen():     void { root.toggle("lockscreen")     }
+        function close():          void { root.panel = ""               }
+
+        function volUp(): void   { Audio.setVolume(Audio.volume + 5);      root.showOsd("volume")     }
+        function volDown(): void { Audio.setVolume(Audio.volume - 5);      root.showOsd("volume")     }
+        function mute(): void    { Audio.toggleMute();                     root.showOsd("volume")     }
+        function briUp(): void   { Bright.setPercent(Bright.percent + 5);  root.showOsd("brightness") }
+        function briDown(): void { Bright.setPercent(Bright.percent - 5);  root.showOsd("brightness") }
+        function osd(type: string): void { root.showOsd(type) }
+
+        // Media shortcuts
+        function mediaToggle(): void { Media.toggle() }
+        function mediaNext():   void { Media.next()   }
+        function mediaPrev():   void { Media.prev()   }
     }
 
-    Hyprland.onWorkspaceChanged: function(ws) {
-        root.panel = ""
-        root.osdVisible = false
-    }
-
-    Component.onCompleted: {
-        for (var i = 0; i < Quickshell.screens.length; ++i) {
-            var comp = Qt.createComponent("Pill.qml")
-            comp.createObject(Quickshell.screens[i], { "screen": Quickshell.screens[i] })
-        }
+    Pill {
+        screen:     Quickshell.screens[0]
+        panel:      root.panel
+        osdVisible: root.osdVisible && root.panel === ""
+        osdType:    root.osdType
+        onDismiss:  root.panel = ""
     }
 }

@@ -9,7 +9,7 @@ FocusScope {
     readonly property var allApps: [
         { name: "Firefox",  exec: "firefox"  },
         { name: "Kitty",    exec: "kitty"    },
-        { name: "Nautilus", exec: "nautilus" }
+        { name: "Nautilus", exec: "nautilus --new-window" }
     ]
     property var filteredApps: allApps
 
@@ -28,7 +28,7 @@ FocusScope {
         spacing: 10
 
         Rectangle {
-            width: parent.width; height: 40; radius: 10; color: "#111111"
+            width: parent.width; height: 50; radius: 12; color: "#111111"
             border.width: search.activeFocus ? 1 : 0; border.color: "#2a2a2a"
             Behavior on border.width { NumberAnimation { duration: 80 } }
 
@@ -60,7 +60,7 @@ FocusScope {
         ListView {
             id: list
             width: parent.width
-            height: Math.min(root.filteredApps.length * 50, 150)
+            height: Math.min(root.filteredApps.length * 58, 230)
             model: root.filteredApps; currentIndex: 0; clip: true
             boundsBehavior: Flickable.StopAtBounds; spacing: 4; interactive: false
 
@@ -68,12 +68,12 @@ FocusScope {
                 id: row
                 required property var  modelData
                 required property int  index
-                width: list.width; height: 46; radius: 10
+                width: list.width; height: 58; radius: 12
                 color: (rowHover.containsMouse || list.currentIndex === row.index) ? "#1c1c1c" : "transparent"
                 Behavior on color { ColorAnimation { duration: 80 } }
 
                 Rectangle {
-                    width: 3; height: 18; radius: 2
+                    width: 3; height: 24; radius: 2
                     anchors { left: parent.left; leftMargin: 10; verticalCenter: parent.verticalCenter }
                     color: list.currentIndex === row.index ? "#ffffff" : "transparent"
                     Behavior on color { ColorAnimation { duration: 100 } }
@@ -81,7 +81,7 @@ FocusScope {
 
                 Text {
                     anchors { left: parent.left; leftMargin: 24; verticalCenter: parent.verticalCenter }
-                    text: row.modelData.name; color: "#ffffff"; font.pixelSize: 18; font.family: "JetBrainsMono Nerd Font"
+                    text: row.modelData.name; color: "#ffffff"; font.pixelSize: 15; font.family: "JetBrainsMono Nerd Font"
                 }
 
                 MouseArea {
@@ -92,6 +92,6 @@ FocusScope {
             }
         }
 
-        Text { text: "↑↓ select   Enter launch   Esc close"; color: "#2a2a2a"; font.pixelSize: 11; font.family: "JetBrainsMono Nerd Font" }
+        Text { text: "↑↓ select   Enter run   Esc close"; color: "#2a2a2a"; font.pixelSize: 15; font.family: "JetBrainsMono Nerd Font" }
     }
 }
