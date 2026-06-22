@@ -26,5 +26,9 @@
     libnotify
     file-roller p7zip unzip zip
     gnome-keyring seahorse
+    
+
+    vim 
+    cava
   ];
 }

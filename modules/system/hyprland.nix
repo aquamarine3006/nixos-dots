@@ -45,5 +45,6 @@
     networkmanagerapplet
     blueman
     impala
+    hyprsunset       # Night light tool for Wayland
   ];
 }

@@ -11,6 +11,7 @@
     ../../modules/system/nautilus.nix
     ../../modules/system/hyprland.nix
     ../../modules/system/sddm.nix
+    ../../modules/system/power.nix
   ];
 
   networking.hostName = "aqua";

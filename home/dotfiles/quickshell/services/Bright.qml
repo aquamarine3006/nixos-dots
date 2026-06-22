@@ -1,28 +1,26 @@
 pragma Singleton
 import QtQuick
-import Quickshell
 import Quickshell.Io
 
-Singleton {
+Item {
     id: root
     property int percent: 100
 
-    function setPercent(v) {
+    function setPercent(v: int): void {
         const c = Math.max(5, Math.min(100, v))
-        setProc.command = ["brightnessctl", "set", c + "%"]
-        setProc.running = true
         root.percent = c
+        setProc.command = ["brightnessctl", "set", String(c) + "%"]
+        setProc.running = true
     }
 
     Timer {
-        interval: 2000; running: true; repeat: true; triggeredOnStart: true
+        interval: 50; running: true; repeat: true; triggeredOnStart: true
         onTriggered: poll.running = true
     }
-
     Process {
         id: poll
         command: ["bash", "-c", "echo $(( $(brightnessctl get) * 100 / $(brightnessctl max) ))"]
-        stdout: SplitParser { onRead: d => root.percent = parseInt(d.trim()) || 100 }
+        stdout: SplitParser { onRead: d => { const v = parseInt(d.trim()); if (!isNaN(v)) root.percent = v } }
     }
     Process { id: setProc }
 }
