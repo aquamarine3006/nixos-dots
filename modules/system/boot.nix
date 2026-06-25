@@ -20,9 +20,11 @@
 
     plymouth = {
       enable = true;
-      # "spinfinity" is a clean, minimal infinity spinner built into nixpkgs.
-      themePackages = [ pkgs.plymouth ];
-      theme = "spinfinity";
+      theme = "cuts";
+      themePackages = with pkgs; [
+		(adi1090x-plymouth-themes.override {
+				selected_themes = [ "cuts" ];
+		}) ];
     };
   };
 }
