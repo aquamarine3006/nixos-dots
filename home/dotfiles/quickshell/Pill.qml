@@ -29,7 +29,7 @@ PanelWindow {
         "osd":            { w: 340, h: 48,  r: 24 },
         "launcher":       { w: 600, h: 420, r: 28 },
         "scriptlauncher": { w: 600, h: 420, r: 28 },
-        "controlcenter":  { w: 540, h: 720, r: 28 },
+        "controlcenter":  { w: 600, h: 860, r: 28 },
         "sysinfo":        { w: 540, h: 460, r: 28 },
         "power":          { w: 360, h: 200, r: 28 },
         "wallpaper":      { w: 680, h: 560, r: 28 },

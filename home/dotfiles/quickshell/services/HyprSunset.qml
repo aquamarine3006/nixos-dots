@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import Quickshell
 import Quickshell.Io
 
 Item {
@@ -20,5 +21,5 @@ Item {
     Process { id: checkProc
         command: ["bash", "-c", "pgrep -x hyprsunset && echo yes || echo no"]
         stdout: SplitParser { onRead: d => { root.active = d.trim() === "yes" } } }
-    Process { id: killProc;  command: ["bash", "-c", "pkill -x hyprsunset || true"] }
+    Process { id: killProc; command: ["pkill", "-x", "hyprsunset"] }
 }

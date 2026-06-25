@@ -229,7 +229,7 @@ FocusScope {
                     }
                     MouseArea {
                         id: impalaMa; anchors.fill: parent; hoverEnabled: true
-                        onClicked: { Quickshell.execDetached(["bash", "-c", "impala"]); root.dismiss() }
+                        onClicked: { Quickshell.execDetached(["kitty", "-e", "impala"]); root.dismiss() }
                     }
                 }
             }
@@ -447,8 +447,20 @@ FocusScope {
                     Behavior on scale { SpringAnimation { spring: 8; damping: 0.8 } }
                     Column {
                         anchors.centerIn: parent; spacing: 6
-                        Text { anchors.horizontalCenter: parent.horizontalCenter; text: dndTile.on ? "󰂛" : "󰂜"; color: dndTile.on ? "#000000" : "#555555"; font.pixelSize: 24; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
-                        Text { anchors.horizontalCenter: parent.horizontalCenter; text: "DnD"; color: dndTile.on ? "#000000" : "#555555"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: dndTile.on ? "󰂛" : "󰂜"
+                            color: dndTile.on ? "#000000" : "#555555"
+                            font.pixelSize: 24; font.family: "JetBrainsMono Nerd Font"
+                            Behavior on color { ColorAnimation { duration: 150 } }
+                        }
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: "DnD"
+                            color: dndTile.on ? "#000000" : "#555555"
+                            font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
+                            Behavior on color { ColorAnimation { duration: 150 } }
+                        }
                     }
                     Process {
                         id: dndProc
@@ -478,71 +490,6 @@ FocusScope {
                 Item { width: (parent.width - 30) / 4; height: 84 }
             }
 
-            Rectangle { width: parent.width; height: 1; color: "#1a1a1a" }
-
-            // ── Fan control (nbfc-linux) ───────────────────────────────────────
-            Column { width: parent.width; spacing: 8
-                Item { width: parent.width; height: 20
-                    Row {
-                        anchors { left: parent.left; verticalCenter: parent.verticalCenter }; spacing: 6
-                        Text { text: "󰈐"; color: "#555555"; font.pixelSize: 18; font.family: "JetBrainsMono Nerd Font"; anchors.verticalCenter: parent.verticalCenter }
-                        Text { text: "Fan"; color: "#ffffff"; font.pixelSize: 17; font.bold: true; font.family: "JetBrainsMono Nerd Font" }
-                    }
-                    Text {
-                        anchors { right: parent.right; verticalCenter: parent.verticalCenter }
-                        text: Fan.rpm > 0 ? Fan.rpm + " rpm" : "—"
-                        color: "#555555"; font.pixelSize: 15; font.family: "JetBrainsMono Nerd Font"
-                    }
-                }
-                Row {
-                    width: parent.width; spacing: 10
-
-                    // Silent
-                    Rectangle {
-                        id: fanSilent
-                        width: (parent.width - 20) / 3; height: 64; radius: 14
-                        color: Fan.mode === "silent" ? "#ffffff" : "#111111"
-                        Behavior on color { ColorAnimation { duration: 150 } }
-                        scale: fanSilentMa.containsMouse ? 0.93 : 1.0
-                        Behavior on scale { SpringAnimation { spring: 8; damping: 0.8 } }
-                        Column { anchors.centerIn: parent; spacing: 4
-                            Text { anchors.horizontalCenter: parent.horizontalCenter; text: "󰈐"; color: Fan.mode === "silent" ? "#000000" : "#555555"; font.pixelSize: 20; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
-                            Text { anchors.horizontalCenter: parent.horizontalCenter; text: "Silent"; color: Fan.mode === "silent" ? "#000000" : "#555555"; font.pixelSize: 15; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
-                        }
-                        MouseArea { id: fanSilentMa; anchors.fill: parent; hoverEnabled: true; onClicked: Fan.setMode("silent") }
-                    }
-
-                    // Balanced
-                    Rectangle {
-                        id: fanBal
-                        width: (parent.width - 20) / 3; height: 64; radius: 14
-                        color: Fan.mode === "balanced" ? "#ffffff" : "#111111"
-                        Behavior on color { ColorAnimation { duration: 150 } }
-                        scale: fanBalMa.containsMouse ? 0.93 : 1.0
-                        Behavior on scale { SpringAnimation { spring: 8; damping: 0.8 } }
-                        Column { anchors.centerIn: parent; spacing: 4
-                            Text { anchors.horizontalCenter: parent.horizontalCenter; text: "󰈐"; color: Fan.mode === "balanced" ? "#000000" : "#555555"; font.pixelSize: 20; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
-                            Text { anchors.horizontalCenter: parent.horizontalCenter; text: "Balanced"; color: Fan.mode === "balanced" ? "#000000" : "#555555"; font.pixelSize: 15; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
-                        }
-                        MouseArea { id: fanBalMa; anchors.fill: parent; hoverEnabled: true; onClicked: Fan.setMode("balanced") }
-                    }
-
-                    // Performance
-                    Rectangle {
-                        id: fanPerf
-                        width: (parent.width - 20) / 3; height: 64; radius: 14
-                        color: Fan.mode === "performance" ? "#ffffff" : "#111111"
-                        Behavior on color { ColorAnimation { duration: 150 } }
-                        scale: fanPerfMa.containsMouse ? 0.93 : 1.0
-                        Behavior on scale { SpringAnimation { spring: 8; damping: 0.8 } }
-                        Column { anchors.centerIn: parent; spacing: 4
-                            Text { anchors.horizontalCenter: parent.horizontalCenter; text: "󰓅"; color: Fan.mode === "performance" ? "#000000" : "#555555"; font.pixelSize: 20; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
-                            Text { anchors.horizontalCenter: parent.horizontalCenter; text: "Perf"; color: Fan.mode === "performance" ? "#000000" : "#555555"; font.pixelSize: 15; font.family: "JetBrainsMono Nerd Font"; Behavior on color { ColorAnimation { duration: 150 } } }
-                        }
-                        MouseArea { id: fanPerfMa; anchors.fill: parent; hoverEnabled: true; onClicked: Fan.setMode("performance") }
-                    }
-                }
-            }
 
             Item { width: 1; height: 8 }
         }
