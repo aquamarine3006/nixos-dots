@@ -7,7 +7,7 @@
     wallust
     mpv amberol
     firefox
-    matugen awww
+    matugen awww imagemagick
     wl-clipboard cliphist wl-clip-persist
     hyprpicker grim slurp satty
     impala
