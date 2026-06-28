@@ -19,10 +19,10 @@ PanelWindow {
     anchors { top: true; left: true; right: true }
     implicitHeight: screen?.height ?? 1080
     color: "transparent"
-    WlrLayershell.layer:         WlrLayer.Top
+    WlrLayershell.layer:         root.panel === "lockscreen" ? WlrLayer.Overlay : WlrLayer.Top
     WlrLayershell.namespace:     "quickshell:pill"
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
-    WlrLayershell.exclusiveZone: 56
+    WlrLayershell.exclusiveZone: root.panel === "lockscreen" ? -1 : 56
 
     readonly property var dimMap: ({
         "":               { w: 260, h: 48,  r: 24 },
@@ -36,7 +36,7 @@ PanelWindow {
         "media":          { w: 480, h: 280, r: 28 },
         "powerprofile":   { w: 540, h: 460, r: 28 },
         "visualizer":     { w: 520, h: 220, r: 28 },
-        "lockscreen":     { w: 440, h: 360, r: 32 }
+        "lockscreen":     { w: screen?.width ?? 1920, h: screen?.height ?? 1080, r: 0 }
     })
 
     readonly property string effectiveState:
@@ -53,7 +53,7 @@ PanelWindow {
     Rectangle {
         id: pill
         anchors.top:              parent.top
-        anchors.topMargin:        12
+        anchors.topMargin:        root.panel === "lockscreen" ? 0 : 12
         anchors.horizontalCenter: parent.horizontalCenter
         color: "#000000"; clip: true
 

@@ -13,6 +13,9 @@ let
     installPhase = ''
       mkdir -p $out/grubphemous
       cp -r grubphemous/* $out/grubphemous/
+      sed -i 's/left = 71%/left = 51%/g' $out/grubphemous/theme.txt
+      sed -i 's/top = 61%/top = 51%/g' $out/grubphemous/theme.txt
+      sed -i 's/width = 600/width = 1000/g' $out/grubphemous/theme.txt
     '';
   };
 in
@@ -30,8 +33,17 @@ in
         useOSProber = false;
         configurationLimit = 10;
         timeout = 180;
+	gfxmodeEfi = "1920x1080x32";
+	extraConfig = ''
+	  set gfxpayload=keep
+	  terminal_output gfxterm
+	'';
       };
     };
+
+     extraModprobeConfig = ''
+          options rtw89_8852be disable_he=1
+	'';
 
     kernelPackages = pkgs.linuxPackages_latest;
     initrd.kernelModules = [ "amdgpu" ];
@@ -42,6 +54,8 @@ in
       "amdgpu.modeset=1"
       "rd.udev.log_level=3"
       "rd.systemd.show_status=auto"
+      "loglevel=0"
+      "vt.global_cursor_default=0"
     ];
 
     consoleLogLevel = 0;
@@ -49,10 +63,10 @@ in
 
     plymouth = {
       enable = true;
-      theme = "cuts";
+      theme = "dragon";
       themePackages = with pkgs; [
         (adi1090x-plymouth-themes.override {
-          selected_themes = [ "cuts" ];
+          selected_themes = [ "dragon" ];
         })
       ];
     };

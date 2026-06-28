@@ -208,7 +208,7 @@ FocusScope {
                     MouseArea { id: sunsetTileMa; anchors.fill: parent; hoverEnabled: true; onClicked: HyprSunset.toggle() }
                 }
 
-                // Launch impala
+                // Launch nmtui
                 Rectangle {
                     id: impalaTile
                     width: (parent.width - 30) / 4; height: 84; radius: 18; color: "#111111"
@@ -223,13 +223,13 @@ FocusScope {
                         }
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: "impala"; color: "#555555"
+                            text: "nmtui"; color: "#555555"
                             font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font"
                         }
                     }
                     MouseArea {
                         id: impalaMa; anchors.fill: parent; hoverEnabled: true
-                        onClicked: { Quickshell.execDetached(["kitty", "-e", "impala"]); root.dismiss() }
+                        onClicked: { Quickshell.execDetached(["bash", "-c", "hyprctl dispatch exec '[float] kitty -e nmtui'"]); root.dismiss() }
                     }
                 }
             }
@@ -433,7 +433,7 @@ FocusScope {
                         Text { anchors.horizontalCenter: parent.horizontalCenter; text: "Files"; color: "#555555"; font.pixelSize: 17; font.family: "JetBrainsMono Nerd Font" }
                     }
                     MouseArea { id: filesMa; anchors.fill: parent; hoverEnabled: true
-                        onClicked: { Quickshell.execDetached(["nautilus", "--new-window"]); root.dismiss() } }
+                        onClicked: { Quickshell.execDetached(["bash", "-c", "hyprctl dispatch exec '[float] nautilus --new-window'"]); root.dismiss() } }
                 }
 
                 // Do Not Disturb (notif daemon mute via dunstctl / mako)

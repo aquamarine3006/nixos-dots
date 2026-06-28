@@ -5,7 +5,7 @@ let
     embeddedTheme = "astronaut";
     themeConfig = {
       # ── Background ────────────────────────────────────────────
-      Background                    = "Backgrounds/LOU.mp4"; # png jpg jpeg webp gif mp4 mov mkv m4v webm avi
+      Background                    = "Backgrounds/katana.mp4"; # png jpg jpeg webp gif mp4 mov mkv m4v webm avi
       BackgroundPlaceholder         = "";                    # shown while video loads, relative path
       BackgroundSpeed               = "1.0";                 # 0.0–10.0, animated only
       PauseBackground               = "false";               # gif-only
@@ -73,7 +73,7 @@ let
       # ── Behavior ──────────────────────────────────────────────
       HideVirtualKeyboard              = "true";
       HideSystemButtons                = "true";
-      HideLoginButton                  = "true";
+      HideLoginButton                  = "false";
       ForceLastUser                    = "true";
       PasswordFocus                    = "true";
       HideCompletePassword             = "true";
@@ -99,25 +99,41 @@ let
   }).overrideAttrs (old: {
     installPhase = old.installPhase + ''
       chmod u+w $out/share/sddm/themes/sddm-astronaut-theme/Backgrounds/
-      cp ${./LOU.mp4} $out/share/sddm/themes/sddm-astronaut-theme/Backgrounds/LOU.mp4
+      cp ${./katana.mp4} $out/share/sddm/themes/sddm-astronaut-theme/Backgrounds/katana.mp4
     '';
   });
 in
 {
   services.displayManager.sddm = {
     enable         = true;
-    wayland.enable = true;
+    wayland = {
+	enable = true;
+	compositor = "kwin";
+    };
     theme          = "sddm-astronaut-theme";
     package        = pkgs.kdePackages.sddm;
     extraPackages  = [
       sddm-astronaut
       pkgs.kdePackages.qtmultimedia # required for video/gif backgrounds
+      pkgs.adwaita-icon-theme
+      pkgs.bibata-cursors
     ];
 	 settings.Theme = {
-    CursorTheme = "Adwaita";
+    CursorTheme = "Bibata-Modern_Classic";
     CursorSize  = 24;
   };
   };
 
-  environment.systemPackages = [ sddm-astronaut pkgs.adwaita-icon-theme ];
+    environment.etc."sddm.conf.d/cursor.conf".text = ''
+	[Theme]
+	CursorTheme=Bibata-Modern-Classic
+	CursorSize=24
+	'';
+	
+    environment.sessionVariables = {
+	XCURSOR_THEME = "Bibata-Modern-Classic";
+	XCURSOR_SIZE = "24";
+	};
+
+    environment.systemPackages = [ sddm-astronaut pkgs.bibata-cursors ];
 }

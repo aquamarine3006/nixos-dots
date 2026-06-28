@@ -13,15 +13,14 @@
     ../../modules/system/sddm.nix
     ../../modules/system/power.nix
   ];
-
   networking.hostName = "aqua";
-
   users.users.aqua = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
-    shell = pkgs.bash;
+    shell = pkgs.zsh;
   };
-
+  # required for zsh to be a valid login shell system-wide
+  programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "26.05";
 }
