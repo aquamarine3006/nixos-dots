@@ -1,15 +1,11 @@
 [config]
 mode = "dark"
-scheme_type = "tonal_spot"
+scheme_type = "scheme-content"
 
 [templates.hyprland]
-input_path = "~/.config/matugen/templates/hyprland.conf.template"
-output_path = "~/nixos-dots/home/dotfiles/hyprland/colors.conf"
-
-[templates.kitty]
-input_path = "~/.config/matugen/templates/kitty.conf.template"
-output_path = "~/nixos-dots/home/dotfiles/kitty/colors.conf"
+input_path = "/home/aqua/.config/matugen/templates/hyprland.conf.template"
+output_path = "/home/aqua/nixos-dots/home/dotfiles/hyprland/colors.conf"
 
 [templates.quickshell]
-input_path = "~/.config/matugen/templates/quickshell.json.template"
+input_path = "/home/aqua/.config/matugen/templates/quickshell.json.template"
 output_path = "/tmp/qs_colors.json"

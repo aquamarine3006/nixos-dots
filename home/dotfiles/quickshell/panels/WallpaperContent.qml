@@ -8,7 +8,7 @@ Item {
     signal dismiss()
 
     readonly property string wallDir:    Quickshell.env("HOME") + "/nixos-dots/home/dotfiles/wallpapers"
-    readonly property string wallScript: Quickshell.env("HOME") + "/scripts/wallpaper.sh"
+    readonly property string wallScript: Quickshell.env("HOME") + "/nixos-dots/home/dotfiles/scripts/wallpaper.sh"
     readonly property int cols: 4
     readonly property int gap:  8
 
@@ -36,7 +36,7 @@ Item {
         Keys.onEscapePressed: { root.dismiss(); event.accepted = true }
         Keys.onReturnPressed: {
             if (grid.currentIndex >= 0 && grid.currentIndex < wallModel.count) {
-                Quickshell.execDetached([root.wallScript, wallModel.get(grid.currentIndex).path, "dark"])
+                Quickshell.execDetached(["bash", root.wallScript, wallModel.get(grid.currentIndex).path])
                 root.dismiss()
             }
             event.accepted = true
@@ -82,7 +82,7 @@ Item {
                     onEntered: grid.currentIndex = wrap.index
                     onClicked: {
                         grid.currentIndex = wrap.index
-                        Quickshell.execDetached([root.wallScript, wrap.path, "dark"])
+                        Quickshell.execDetached(["bash", root.wallScript, wrap.path])
                         root.dismiss()
                     }
                 }

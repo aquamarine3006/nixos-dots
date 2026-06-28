@@ -4,6 +4,7 @@
     inputs.quickshell.packages.${pkgs.system}.default
     eza bat ripgrep fd zoxide fzf jq
     btop fastfetch gdu neovim lazygit
+    wallust
     mpv amberol
     firefox
     matugen awww

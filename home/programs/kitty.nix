@@ -2,12 +2,12 @@
 {
   programs.kitty = {
     enable = true;
-    font.name = "JetBrainsMono Nerd Font";
-    font.size = 16;
+    font.name = "JetBrainsMono Nerd Font Bold";
+    font.size = 19;
     settings = {
       window_padding_width         = 16;
       confirm_os_window_close      = 0;
-      background_opacity           = "0.90";
+      background_opacity           = "0.97";
       dynamic_background_color     = true;
       sync_to_monitor              = true;
       repaint_delay                = 8;
@@ -20,9 +20,11 @@
       tab_bar_style                = "powerline";
       scrollback_lines             = 100000;
       enable_audio_bell            = false;
+      text_fg_override_threshold   = 4;
     };
     extraConfig = ''
-      include colors.conf
+      include /home/aqua/.cache/wallust/kitty-colors.conf
     '';
   };
 }
+

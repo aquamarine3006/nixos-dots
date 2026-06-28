@@ -35,7 +35,6 @@
     grim
     slurp
     satty
-    swww
     hyprpicker
     libnotify
     brightnessctl
@@ -46,5 +45,6 @@
     blueman
     impala
     hyprsunset       # Night light tool for Wayland
+    util-linux
   ];
 }

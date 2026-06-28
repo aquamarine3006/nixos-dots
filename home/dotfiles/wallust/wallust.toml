@@ -1,0 +1,8 @@
+backend = "kmeans"
+color_space = "labmixed"
+palette = "dark16"
+threshold = 11
+
+[templates]
+kitty.template = "kitty.conf"
+kitty.target = "/home/aqua/.cache/wallust/kitty-colors.conf"

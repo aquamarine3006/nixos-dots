@@ -22,12 +22,13 @@ in
   xdg.configFile = {
     "quickshell".source = link "${dots}/quickshell";
     "matugen".source    = link "${dots}/matugen";
-    "kitty/colors.conf".source = link "${dots}/kitty/colors.conf";
     "hypr/hyprland.conf".source    = link "${dots}/hyprland/hyprland.conf";
     "hypr/animations.conf".source  = link "${dots}/hyprland/animations.conf";
     "hypr/keybinds.conf".source    = link "${dots}/hyprland/keybinds.conf";
     "hypr/windowrules.conf".source = link "${dots}/hyprland/windowrules.conf";
     "hypr/colors.conf".source      = link "${dots}/hyprland/colors.conf";
+    "wallust/wallust.toml".source  = link "${dots}/wallust/wallust.toml";
+    "wallust/templates/kitty.conf".source = link "${dots}/wallust/kitty.conf";
   };
   home.file."scripts" = {
     source    = link "${dots}/scripts";

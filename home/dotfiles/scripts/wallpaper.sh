@@ -1,47 +1,39 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 export PATH="/run/current-system/sw/bin:/etc/profiles/per-user/$USER/bin:$HOME/.local/state/nix-profiles/profile/bin:$HOME/.nix-profile/bin:$PATH"
 
+WALL="${1:?Usage: wallpaper.sh <path>}"
 LOGFILE="/tmp/wallpaper-sh.log"
 exec > "$LOGFILE" 2>&1
 
-WALL="${1:?Usage: wallpaper.sh <path> [dark|light]}"
-MODE="${2:-dark}"
+t() { echo "[$(date +%s.%N)] $*"; }
 
-echo "Starting wallpaper.sh"
-echo "Path: $WALL"
-echo "Mode: $MODE"
+t "start"
+LUMINANCE=$(magick "$WALL" -colorspace Gray -format "%[fx:mean*100]" info:)
+MODE=$(awk "BEGIN{print ($LUMINANCE+0 > 55) ? \"light\" : \"dark\"}")
+t "luminance done: $LUMINANCE → $MODE"
 
-[ -f "$WALL" ] || { echo "File not found"; exit 1; }
+script -q -c "matugen -t scheme-content --contrast 0.5 image \"$WALL\" --mode \"$MODE\" --source-color-index 0" /dev/null
+t "matugen done"
 
-echo "Running awww..."
-awww img "$WALL" --transition-type grow --transition-pos 0.5,0.5 --transition-duration 1.5 --transition-fps 60
-
-echo "Running matugen..."
-matugen image "$WALL" --mode "$MODE" --color source < /dev/null
-
-echo "Reloading hyprland..."
-hyprctl reload
-
-echo "Notifying kitty..."
+wallust run -s "$WALL"
 pkill -SIGUSR1 kitty 2>/dev/null || true
+t "wallust done"
 
-echo "Updating gsettings..."
-if [ "$MODE" = "dark" ]; then
-  gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-  gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
-else
-  gsettings set org.gnome.desktop.interface color-scheme 'default'
-  gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
-fi
+awww img "$WALL" \
+  --transition-type grow \
+  --transition-pos 0.5,0.5 \
+  --transition-duration 1.5 \
+  --transition-fps 60
+t "awww done"
 
-echo "Notifying Quickshell..."
-qs ipc call pill reloadColors 2>/dev/null || true
+hyprctl reload
+t "hyprctl done"
 
 CACHE="${XDG_CACHE_HOME:-$HOME/.cache}"
 mkdir -p "$CACHE"
 echo "$WALL" > "$CACHE/current-wallpaper"
-echo "$MODE" > "$CACHE/current-theme-mode"
+echo "$MODE"  > "$CACHE/current-theme-mode"
 
+echo "Wall: $WALL  Mode: $MODE  Luminance: $LUMINANCE"
 echo "Done!"
